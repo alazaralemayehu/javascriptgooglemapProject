@@ -78,6 +78,12 @@ body {
 .store-container {
     display: flex;
     border-bottom: 1px solid #979797;
+    cursor: pointer;
+}
+
+.store-container:hover {
+    background-color:rgba(10, 10, 10, alpha);
+    transition: ease-in-out;
 }
 
 .store-info-container {
@@ -114,4 +120,56 @@ body {
 
 .store-address span {
     display: block;
+}
+
+.store-info-window {
+    min-width: 300px;
+    font-size: 30px;
+    padding: 8px;
+}
+
+.store-info-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: rgba(0,0,0,0.87);
+}
+
+.store-info-status {
+    margin-top: 6px;
+    border-bottom: 1px solid #00000029;
+    padding-bottom: 6px;
+}
+
+.store-info-address, .store-info-phone  {
+    margin-top: 8px;
+    display: flex;
+    justify-items: center;
+}
+
+
+.store-info-address .circle, .store-info-phone .circle {
+    margin-right: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: #1985AA;
+    border-radius: 50%;
+
+}
+
+
+.store-container-background {
+    display: flex;
+    width: 100%;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    border-radius: 18px;
+    transition: all 0.4s ease-in-out;
+}
+.store-container-background:hover {
+    background-color:#ccc;
 }

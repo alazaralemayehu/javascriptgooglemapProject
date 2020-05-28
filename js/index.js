@@ -12,17 +12,59 @@ function initMap() {
         zoom: 8
     });
     infoWindow = new google.maps.InfoWindow();
-    displayStores()
-    showStoresMarkers()
+    procedures(stores)
+   
 }
 
-function displayStores() {
+function procedures(targetStore) {
+    clearLocation()
+    displayStores(targetStore)
+    showStoresMarkers(targetStore)
+    setOnClickListener()
+}
+
+
+function searchStores() {
+    var foundStores = []
+    var zipCope = document.getElementById("zip-code-input").value;
+    if (zipCope) {
+        stores.forEach(function (store) {
+            var postal = store.address.postalCode.substring(0,5);
+            if (postal == zipCope){
+                foundStores.push(store)
+            }
+        });
+    } else {
+        foundStores = stores;
+    }
+    procedures(foundStores)
+}
+
+function clearLocation() {
+    infoWindow.close()
+    for (var i = 0; i< markers.length; i++){
+        markers[i].setMap(null)
+    }
+    markers.length = 0
+}
+function setOnClickListener() {
+    var storeElements = document.querySelectorAll(".store-container");
+    storeElements.forEach(function(elem, index)  {
+        elem.addEventListener("click", function() {
+            google.maps.event.trigger(markers[index], "click");
+        });
+    });
+}
+function displayStores(filteredStores=stores) {
     var storesHtml = "";
-    stores.forEach(function(store, index){
+    filteredStores.forEach(function(store, index){
         var address = store.addressLines;
         var phone = store.phoneNumber;
         storesHtml += `
-            <div class="store-container">
+        
+        <div class="store-container">
+            <div class="store-container-background">
+
                 <div class="store-info-container">
                     <div class="store-address">
                         <span>${address[0]}</span>
@@ -36,33 +78,65 @@ function displayStores() {
                     </div>
                 </div>
             </div>
-        `
+        </div>
+    `
     });
     document.querySelector('.stores-list').innerHTML = storesHtml;
 }
 
 
-function showStoresMarkers() {
+function showStoresMarkers(filteredStores) {
     var bounds = new google.maps.LatLngBounds();
-    stores.forEach(function(store, index){
+    filteredStores.forEach(function(store, index){
         var latlng = new google.maps.LatLng(
             store.coordinates.latitude,
             store.coordinates.longitude);
         console.log(latlng);
         var name = store.name;
         var address = store.addressLines[0];
+        var phone = store.phoneNumber;
+        var statusText = store.openStatusText;
         bounds.extend(latlng);
-        createMarker(latlng, name, address);
+        createMarker(latlng, name, address, phone, statusText, index+ 1);
     })
     map.fitBounds(bounds);
 }
 
 
-function createMarker(latlng, name, address) {
-    var html = "<b>" + name + "</b> <br/>" + address;
-    var marker = new google.maps.Marker({
+function createMarker(latlng, name, address, phone, statusText, index) {
+
+    var html = `
+        <div class="store-info-window">
+            <div class="store-info-name">
+                ${name}            
+            </div>
+
+            <div class="store-info-status">
+                ${statusText}
+            </div>
+
+            <div class="store-info-address">
+                <div class="circle">
+                    <i class="fas fa-location-arrow"></i>    
+                </div>
+
+                ${address}
+            </div>
+
+            <div class="store-info-phone">
+                <div class="circle">
+                   <i class="fas fa-phone-alt"></i>
+
+                </div>
+               ${phone}
+            </div>
+        </div>
+    `
+    
+      var marker = new google.maps.Marker({
       map: map,
-      position: latlng
+      position: latlng,
+      label: `${index}`
     });
     google.maps.event.addListener(marker, 'click', function() {
       infoWindow.setContent(html);
