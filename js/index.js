@@ -9,7 +9,42 @@ function initMap() {
     }
     map = new google.maps.Map(document.getElementById('map'), {
         center: losAngeles,
-        zoom: 8
+        zoom: 8,
+        styles: [
+            {elementType: 'geometry', stylers: [{color: '#241f3e'}]},
+            {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+            {
+              featureType: 'administrative.locality',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d999863'}]
+            },
+            {
+              featureType: 'poi',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'geometry',
+              stylers: [{color: '#263c3f'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#6b9a76'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry',
+              stylers: [{color: '#38414e'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry.stroke',
+              stylers: [{color: '#212a37'}]
+            }
+          ]
     });
     infoWindow = new google.maps.InfoWindow();
     procedures(stores)
@@ -116,11 +151,14 @@ function createMarker(latlng, name, address, phone, statusText, index) {
             </div>
 
             <div class="store-info-address">
+            
                 <div class="circle">
                     <i class="fas fa-location-arrow"></i>    
                 </div>
+                <a href="https://www.google.com/maps/dir/?api=1&origin=Space+Needle+Seattle+WA&destination=${address}&travelmode=bicycling">
+                    ${address}
 
-                ${address}
+                </a>
             </div>
 
             <div class="store-info-phone">
@@ -132,11 +170,12 @@ function createMarker(latlng, name, address, phone, statusText, index) {
             </div>
         </div>
     `
-    
+      var iconBase ='http://maps.google.com/mapfiles/kml/pal2/icon38.png';
       var marker = new google.maps.Marker({
       map: map,
       position: latlng,
-      label: `${index}`
+      label: `${index}`,
+      icon:iconBase
     });
     google.maps.event.addListener(marker, 'click', function() {
       infoWindow.setContent(html);

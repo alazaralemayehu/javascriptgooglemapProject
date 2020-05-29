@@ -8,6 +8,8 @@ body {
 
 #map {
     height: 100vh;
+
+    
 }
 
 .title {
@@ -18,7 +20,9 @@ body {
     z-index: 30;
     font-weight: bold;
     text-transform: uppercase;
-    color: #333;
+    background-image:  linear-gradient(green, yellow, red);
+    background-clip: text;
+    /* color: white; */
 }
 
 .search-container {
@@ -58,8 +62,11 @@ body {
 }
 
 .stores-list-container {
+    color:white;
     width: 400px;
-    background-color: white;
+    background-color: rgb(149, 128, 163);
+    background-image: linear-gradient(green, yellow, red);
+
     position: absolute;
     z-index: 30;
     top: 320px;
@@ -123,6 +130,7 @@ body {
 }
 
 .store-info-window {
+    background-image: linear-gradient(green, yellow, red);
     min-width: 300px;
     font-size: 30px;
     padding: 8px;
